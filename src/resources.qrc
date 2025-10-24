@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="packages/curl/curl.list">/home/alex/regul_installator/packages/curl/curl.list</file>
+    <file alias="packages/curl/curl_8.5.0-2ubuntu10.6_amd64.deb">/home/alex/regul_installator/packages/curl/curl_8.5.0-2ubuntu10.6_amd64.deb</file>
+    <file alias="packages/git/git.list">/home/alex/regul_installator/packages/git/git.list</file>
+    <file alias="packages/git/git_1%3a2.43.0-1ubuntu7.3_amd64.deb">/home/alex/regul_installator/packages/git/git_1%3a2.43.0-1ubuntu7.3_amd64.deb</file>
+    <file alias="packages/htop/htop.list">/home/alex/regul_installator/packages/htop/htop.list</file>
+    <file alias="packages/htop/htop_3.3.0-4build1_amd64.deb">/home/alex/regul_installator/packages/htop/htop_3.3.0-4build1_amd64.deb</file>
+    <file alias="packages/vim/vim.list">/home/alex/regul_installator/packages/vim/vim.list</file>
+    <file alias="packages/vim/vim_2%3a9.1.0016-1ubuntu7.9_amd64.deb">/home/alex/regul_installator/packages/vim/vim_2%3a9.1.0016-1ubuntu7.9_amd64.deb</file>
+    <file alias="packages/wine/wine.list">/home/alex/regul_installator/packages/wine/wine.list</file>
+    <file alias="packages/wine/wine32_9.0~repack-4build3_i386.deb">/home/alex/regul_installator/packages/wine/wine32_9.0~repack-4build3_i386.deb</file>
+    <file alias="packages/wine/wine_9.0~repack-4build3_all.deb">/home/alex/regul_installator/packages/wine/wine_9.0~repack-4build3_all.deb</file>
+  </qresource>
+</RCC>

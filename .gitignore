@@ -35,3 +35,5 @@ qrc_*
 ui_*
 *.o
 *.a
+CMakeLists.txt.user
+*.user

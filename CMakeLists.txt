@@ -58,7 +58,8 @@ qt5_add_resources(QRC_FILES src/resources.qrc)
 
 add_executable(regul_installator ${SOURCES} ${HEADERS} ${QRC_FILES}
     packages/wine/wine.list
-    README.md)
+    README.md
+)
 
 target_link_libraries(regul_installator Qt5::Widgets Qt5::Core)
 

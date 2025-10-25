@@ -135,8 +135,6 @@ QString InstallerEngine::getInstallStatus() const {
 
 void InstallerEngine::executeRealInstallation(const QString &packageName) {
 
-    m_currentInstallationStage = 1;
-
     emit installationProgress(tr("Извлечение пакетов..."));
 
     if (!extractPackagesToTemp()) {
@@ -175,9 +173,6 @@ bool InstallerEngine::extractPackage(const QString &resourcePath,
         QFile::remove(tempFilePath);
 
     if (resourceFile.copy(tempFilePath)) {
-
-        QFileInfo tempFileInfo(tempFilePath);
-
         QFile tempFile(tempFilePath);
         tempFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner |
                                 QFile::ReadUser  | QFile::ReadOther);
@@ -188,8 +183,7 @@ bool InstallerEngine::extractPackage(const QString &resourcePath,
 
 void InstallerEngine::startLocalInstallation() {
 
-    m_currentInstallationStage = 2;
-    emit installationProgress(tr("🔧 Установка пакетов..."));
+    emit installationProgress(tr("Установка пакетов..."));
 
     QStringList debPaths;
     foreach (const QString &debFile, m_packagesToInstall) {
@@ -199,7 +193,7 @@ void InstallerEngine::startLocalInstallation() {
     }
     foreach (const QString &debPath, debPaths) {
         if (!QFile::exists(debPath)) {
-            emit installationProgress(tr("❌ Ошибка: файл пакета не найден"));
+            emit installationProgress(tr("Ошибка: файл пакета не найден"));
             emit installationFinished(false);
             return;
         }
@@ -244,7 +238,7 @@ void InstallerEngine::onProcessFinished(int exitCode) {
 
 void InstallerEngine::onProcessErrorOccurred(QProcess::ProcessError error) {
 
-    QString errorMsg = tr("❌ Ошибка во время установки");
+    QString errorMsg = tr("Ошибка во время установки");
 
     emit installationProgress(errorMsg);
     emit installationError(errorMsg);

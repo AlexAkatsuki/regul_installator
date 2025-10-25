@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QFontDatabase>
-#include <QDebug>
 
 #include "MainWindow.h"
 
@@ -223,9 +222,9 @@ void MainWindow::onInstallationFinished(bool success) {
     m_progressBar->setValue(MAX_SCROLL_BAR_VAL);
 
     if (success)
-        m_statusText->appendPlainText(tr("🎉 Установка завершена!"));
+        m_statusText->appendPlainText(tr("Установка завершена!"));
     else
-        m_statusText->appendPlainText(tr("💥 Установка не удалась"));
+        m_statusText->appendPlainText(tr("Установка не удалась"));
 
     m_backButton->setVisible(true);
     m_nextButton->setVisible(true);
@@ -244,7 +243,7 @@ void MainWindow::onInstallationFinished(bool success) {
 
 void MainWindow::onInstallationError(const QString &error) {
 
-    m_statusText->appendPlainText(tr("💥 Ошибка: %1").arg(error));
+    m_statusText->appendPlainText(tr("Ошибка: %1").arg(error));
 
     m_backButton->setVisible(true);
     m_nextButton->setVisible(true);

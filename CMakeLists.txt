@@ -31,8 +31,8 @@ set(HEADERS
     src/InstallerEngine.h
 )
 
+#Все новые пакеты попадут в resource.qrc
 set(QRC_CONTENT "<RCC>\n  <qresource prefix=\"/\">\n")
-
 foreach(PACKAGE_FILE ${ALL_PACKAGE_FILES})
     file(RELATIVE_PATH REL_PATH ${CMAKE_CURRENT_SOURCE_DIR} ${PACKAGE_FILE})
 
@@ -49,15 +49,12 @@ foreach(PACKAGE_FILE ${ALL_PACKAGE_FILES})
 
     set(QRC_CONTENT "${QRC_CONTENT}    <file alias=\"${ALIAS_PATH}\">${PACKAGE_FILE}</file>\n")
 endforeach()
-
 set(QRC_CONTENT "${QRC_CONTENT}  </qresource>\n</RCC>")
-
 file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/src/resources.qrc ${QRC_CONTENT})
 
 qt5_add_resources(QRC_FILES src/resources.qrc)
 
 add_executable(regul_installator ${SOURCES} ${HEADERS} ${QRC_FILES}
-    packages/wine/wine.list
     README.md
 )
 

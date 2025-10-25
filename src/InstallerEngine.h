@@ -40,8 +40,6 @@ private slots:
     void readProcessOutput();
 
 private:
-    int m_currentInstallationStage;
-
     QString m_currentPackageName;
     QString m_currentStatus;
     QStringList m_packagesToInstall;

@@ -29,6 +29,8 @@ set(SOURCES
 set(HEADERS
     src/MainWindow.h
     src/InstallerEngine.h
+
+    src/SystemCommand.h
 )
 
 #Все новые пакеты попадут в resource.qrc

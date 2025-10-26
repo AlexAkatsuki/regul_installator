@@ -16,6 +16,11 @@
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
+    static constexpr uint16_t MW_WIDTH = 600;
+    static constexpr uint16_t MW_HEIGHT = 400;
+
+    static constexpr uint8_t FRAME_MIN_HEIGHT = 200;
+
     static constexpr uint8_t MAX_ROW_SIZE = 20;
 
     static constexpr uint8_t MIN_SCROLL_BAR_VAL = 0;

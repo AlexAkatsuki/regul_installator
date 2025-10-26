@@ -38,12 +38,12 @@ MainWindow::~MainWindow() {}
 void MainWindow::setupUI() {
 
     setWindowTitle(tr("Установщик пакетов"));
-    setFixedSize(600, 400);
+    setFixedSize(MW_WIDTH, MW_HEIGHT);
 
     m_frameLabel = new QLabel();
     m_frameLabel->setAlignment(Qt::AlignCenter);
     m_frameLabel->setStyleSheet("QLabel { border: 2px solid gray; padding: 20px; }");
-    m_frameLabel->setMinimumHeight(200);
+    m_frameLabel->setMinimumHeight(FRAME_MIN_HEIGHT);
 
     m_buttonLayout = new QHBoxLayout();
     m_backButton = new QPushButton(tr("Назад"));

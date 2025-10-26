@@ -7,6 +7,7 @@
 #include <QDirIterator>
 
 #include "InstallerEngine.h"
+#include "SystemCommand.h"
 
 InstallerEngine::InstallerEngine(QObject *parent)
     : QObject(parent)
@@ -14,13 +15,13 @@ InstallerEngine::InstallerEngine(QObject *parent)
     , m_tempDir(new QTemporaryDir()) {
 
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, &InstallerEngine::onProcessFinished);
+                                    this, &InstallerEngine::onProcessFinished);
     connect(m_process, &QProcess::errorOccurred,
-            this, &InstallerEngine::onProcessErrorOccurred);
+                                    this, &InstallerEngine::onProcessErrorOccurred);
     connect(m_process, &QProcess::readyReadStandardOutput,
-            this, &InstallerEngine::readProcessOutput);
+                                    this, &InstallerEngine::readProcessOutput);
     connect(m_process, &QProcess::readyReadStandardError,
-            this, &InstallerEngine::readProcessOutput);
+                                    this, &InstallerEngine::readProcessOutput);
 }
 
 InstallerEngine::~InstallerEngine() {
@@ -35,11 +36,9 @@ bool InstallerEngine::loadPackages() {
     QDirIterator it(":/packages", QStringList() << "*.list",
                                 QDir::Files, QDirIterator::Subdirectories);
 
-    int foundCount = 0;
     while (it.hasNext()) {
         QString filePath = it.next();
         listFiles << filePath;
-        foundCount++;
     }
 
     if (listFiles.isEmpty()) {
@@ -48,7 +47,7 @@ bool InstallerEngine::loadPackages() {
         QStringList allFiles = resourceDir.entryList(QDir::Files |
                                                      QDir::NoDotAndDotDot);
 
-        foreach (const QString &file, allFiles) {
+        for (const auto &file : qAsConst(allFiles)) {
             if (file.endsWith(".list"))
                 listFiles << ":/" + file;
         }
@@ -57,7 +56,7 @@ bool InstallerEngine::loadPackages() {
     if (listFiles.isEmpty())
         return false;
 
-    foreach (const QString &listFilePath, listFiles) {
+    for (const auto &listFilePath : qAsConst(listFiles)) {
 
         PackageInfo packageInfo = readPackageInfo(listFilePath);
 
@@ -98,7 +97,6 @@ PackageInfo InstallerEngine::readPackageInfo(const QString &resourcePath) {
 
             info.debFiles.append(fullDebPath);
         }
-
     }
 
     return info;
@@ -149,7 +147,7 @@ void InstallerEngine::executeRealInstallation(const QString &packageName) {
 
 bool InstallerEngine::extractPackagesToTemp() {
 
-    foreach (const QString &debFile, m_packagesToInstall) {
+    for (const QString &debFile : qAsConst(m_packagesToInstall)) {
         QString resourcePath = ":/packages/" + debFile;
 
         QString filename = QFileInfo(debFile).fileName();
@@ -186,12 +184,12 @@ void InstallerEngine::startLocalInstallation() {
     emit installationProgress(tr("Установка пакетов..."));
 
     QStringList debPaths;
-    foreach (const QString &debFile, m_packagesToInstall) {
+    for (const QString &debFile : qAsConst(m_packagesToInstall)) {
         QString filename = QFileInfo(debFile).fileName();
         QString tempFilePath = m_tempDir->path() + "/" + filename;
         debPaths.append(tempFilePath);
     }
-    foreach (const QString &debPath, debPaths) {
+    for (const QString &debPath : qAsConst(debPaths)) {
         if (!QFile::exists(debPath)) {
             emit installationProgress(tr("Ошибка: файл пакета не найден"));
             emit installationFinished(false);
@@ -199,10 +197,9 @@ void InstallerEngine::startLocalInstallation() {
         }
     }
 
-    QStringList installCommand = {"pkexec", "dpkg", "-i"};
-    installCommand.append(debPaths);
-
-    executeCommand(installCommand);
+    QStringList instCmd = SystemCommands::install();
+    instCmd.append(debPaths);
+    executeCommand(instCmd);
 }
 
 void InstallerEngine::executeCommand(const QStringList &command) {
@@ -238,20 +235,20 @@ void InstallerEngine::onProcessFinished(int exitCode) {
 
 void InstallerEngine::onProcessErrorOccurred(QProcess::ProcessError error) {
 
-    QString errorMsg = tr("Ошибка во время установки");
+    const QString error_msg = tr("Ошибка во время установки");
 
-    emit installationProgress(errorMsg);
-    emit installationError(errorMsg);
+    emit installationProgress(error_msg);
+    emit installationError(error_msg);
     emit installationFinished(false);
 }
 
 void InstallerEngine::readProcessOutput() {
 
-    QString output = m_process->readAllStandardOutput();
+    const QString output = m_process->readAllStandardOutput();
     if (!output.trimmed().isEmpty())
         emit installationProgress(output.trimmed());
 
-    QString errorOutput = m_process->readAllStandardError();
+    const QString errorOutput = m_process->readAllStandardError();
     if (!errorOutput.trimmed().isEmpty())
         emit installationProgress(tr("%1").arg(errorOutput.trimmed()));
 }

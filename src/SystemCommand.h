@@ -23,7 +23,7 @@ public:
 
     // Пример команды обновления пакетов apt (не используется в задании)
     static auto update() {
-        return QStringList(REMOVE_CMD.begin(), REMOVE_CMD.end());
+        return QStringList(UPDATE_CMD.begin(), UPDATE_CMD.end());
     }
 };
 

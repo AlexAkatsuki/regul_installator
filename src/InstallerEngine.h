@@ -17,15 +17,13 @@ struct PackageInfo {
 class InstallerEngine : public QObject {
     Q_OBJECT
 
-    static constexpr std::array<const char*, 3> INSTALL_CMD = {"pkexec", "dpkg", "-i"};
+    static constexpr uint16_t ONE_sec = 1'000;
+    static constexpr uint16_t TREE_sec = 3'000;
+    static constexpr uint16_t FIVE_sec = 5'000;
 
 public:
     explicit InstallerEngine(QObject *parent = nullptr);
     ~InstallerEngine();
-
-    static QStringList getInstallCmd() {
-        return QStringList(INSTALL_CMD.begin(), INSTALL_CMD.end());
-    }
 
     void installPackage(const QString &packageName);
 

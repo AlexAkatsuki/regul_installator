@@ -1,7 +1,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QResource>
-#include <QTimer>
 #include <QFileInfo>
 #include <QDir>
 #include <QDirIterator>
@@ -115,7 +114,7 @@ void InstallerEngine::installPackage(const QString &packageName) {
 
     if (m_process->state() == QProcess::Running) {
         m_process->kill();
-        m_process->waitForFinished(3000);
+        m_process->waitForFinished(TREE_sec);
     }
 
     m_packagesToInstall = m_packages[packageName];
@@ -206,12 +205,12 @@ void InstallerEngine::executeCommand(const QStringList &command) {
 
     if (m_process->state() == QProcess::Running) {
         m_process->kill();
-        m_process->waitForFinished(1000);
+        m_process->waitForFinished(ONE_sec);
     }
 
     m_process->start(command[0], command.mid(1));
 
-    if (!m_process->waitForStarted(5000)) {
+    if (!m_process->waitForStarted(FIVE_sec)) {
         emit installationError(tr("Не удалось запустить процесс: %1").
                                             arg(m_process->errorString()));
         return;
